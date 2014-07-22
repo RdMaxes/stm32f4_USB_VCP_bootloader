@@ -42,13 +42,16 @@ uint8_t test_buf[64] = "String Show test stm32f4xx \r\n";
 int main(void)
 {	
 	char c = 0;
+	uint8_t FlashProtection = 0;	
+	uint8_t cmd = 0;
+
+	//Unlock the Flash Program Erase controller
+	STM_FLASH_Init();
 
 	LED_Init();
 	Usart2_Init(9600);
 	Myprintf_Init(0x00,myputc);
 	USBD_Init(&USB_OTG_dev,USB_OTG_FS_CORE_ID,&USR_desc,&USBD_CDC_cb,&USR_cb);
-	//Unlock the Flash Program Erase controller
-	STM_FLASH_Init();
 
 	//waiting for user input to start IAP
 	do
@@ -66,9 +69,74 @@ int main(void)
 	//Test if any sector of Flash memory where user application will be loaded is write protected
 	if (STM_FLASH_GetWriteProtectionStatus() == 0)   FlashProtection = 1;
 	else FlashProtection = 0;
-	
+
 	while(1) 
 	{	
+		//Show Main Menu
+		USB_VCP_TxString("\r\n======================================================================");
+		USB_VCP_TxString("\r\n========================= Main Menu ==================================");
+		USB_VCP_TxString("\r\nDownload Image to the STM32F4xx Internal Flash --------------------[1]");
+		USB_VCP_TxString("\r\nUpload Image from the STM32F4xx Internal Flash --------------------[2]");
+		USB_VCP_TxString("\r\nExecute The New Program -------------------------------------------[3]");
+
+		if(FlashProtection != 0)
+		{
+		      USB_VCP_TxString("\r\nExecute The New Program -------------------------------------------[4]");
+		}
+		USB_VCP_TxString("\r\n======================================================================");	
+		USB_VCP_TxString("\r\nPlease select the option...");
+
+		//Receive a byte from usart2
+		while(USB_VCP_RxChar(&cmd)==0);
+		if (cmd == '1')
+		{						
+			//Download User Application file into flash		
+			USB_VCP_TxString("\r\nDownload2Flash");	
+			//Download2Flash();
+		}
+		else if (cmd == '2')
+		{
+			USB_VCP_TxString("\r\nCurrently not support Flash Upload!");
+		}
+		else if (cmd == '3') /* execute the new program */
+		{
+			JumpAddress = *(__IO uint32_t*) (APPLICATION_ADDRESS + 4);
+			/* Jump to user application */
+			Jump_To_Application = (pFunction) JumpAddress;
+			/* Initialize user application's Stack Pointer */
+			__set_MSP(*(__IO uint32_t*) APPLICATION_ADDRESS);
+			Jump_To_Application();
+		}
+		else if ((cmd == '4') && (FlashProtection == 1))
+		{
+			/* Disable the write protection */
+			switch (STM_FLASH_DisableWriteProtection())
+			{
+				case 1:
+				{
+					USB_VCP_TxString("\r\nWrite Protection disabled...");
+					FlashProtection = 0;
+					break;
+				}
+				case 2:
+				{
+					USB_VCP_TxString("\r\nError: Flash write unprotection failed...");
+					break;
+				}
+				default:{}
+			}
+		}
+		else
+		{
+			if (FlashProtection == 0)
+			{
+				USB_VCP_TxString("\r\nInvalid Number ! ==> The number should be either 1, 2 or 3");
+			}
+			else
+			{
+				USB_VCP_TxString("\r\nInvalid Number ! ==> The number should be either 1, 2, 3 or 4");
+			}
+		}	
 		LED_loop();
 	}
 
