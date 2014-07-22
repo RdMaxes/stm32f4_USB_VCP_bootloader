@@ -52,13 +52,12 @@ static  int32_t Receive_Byte (uint8_t *c, uint32_t timeout)
   return -1;
 }
 
-//send a byte via IAP_Port
+//send a byte via USB line
 //c: byte to send
 //return: 0
 static uint32_t Send_Byte (uint8_t c)
 {
-  USART_SendData(IAP_Port, c);
-  while (USART_GetFlagStatus(IAP_Port, USART_FLAG_TXE) == RESET);
+  USB_VCP_TxChar(c);
   return 0;
 }
 
