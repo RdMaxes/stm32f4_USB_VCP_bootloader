@@ -31,6 +31,30 @@ uint8_t buf_1k[1024] ={0};
 pFunction Jump_To_Application;
 uint32_t JumpAddress;
 
+//Convert an interger to a string
+//str: converted string
+//intnum: integer waiting for converting
+static void Int2Str(uint8_t* str, int32_t intnum)
+{
+  uint32_t i, Div = 1000000000, j = 0, Status = 0;
+
+  for (i = 0; i < 10; i++)
+  {
+    str[j++] = (intnum / Div) + 48;
+
+    intnum = intnum % Div;
+    Div /= 10;
+    if ((str[j-1] == '0') & (Status == 0))
+    {
+      j = 0;
+    }
+    else
+    {
+      Status++;
+    }
+  }
+}
+
 //Delay for a while
 //time: delay time
 static void delay(int32_t time)
