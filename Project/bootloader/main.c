@@ -24,18 +24,23 @@
 #include "usbd_cdc_vcp.h"
 
 __ALIGN_BEGIN USB_OTG_CORE_HANDLE  USB_OTG_dev __ALIGN_END;
+typedef  void (*pFunction)(void);
 
-int8_t test_buf[32];
+//Global Variables
+uint8_t FileName[FILE_NAME_LENGTH];//array to store filename of download *.bin
+uint8_t buf_1k[1024] ={0};
+pFunction Jump_To_Application;
+uint32_t JumpAddress;
+
 //Delay for a while
 //time: delay time
 static void delay(int32_t time)
 {
 	while(time--);
 }
-extern uint32_t USB_ENTER_CNT;
+
 int main(void)
 {	
-	int8_t i = 0;
 	LED_Init();
 	Usart2_Init(9600);
 	Myprintf_Init(0x00,myputc);
@@ -43,7 +48,7 @@ int main(void)
 	USBD_Init(&USB_OTG_dev,USB_OTG_FS_CORE_ID,&USR_desc,&USBD_CDC_cb,&USR_cb);
 	//Unlock the Flash Program Erase controller
 	STM_FLASH_Init();
-	
+
 	while(1) 
 	{	
 		LED_loop();
