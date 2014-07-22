@@ -216,4 +216,20 @@ void USB_VCP_TxChar(char pchar)
 {
    VCP_DataTx(&pchar, 1);
 }
+
+//Get a char from terminal via USB line
+//pchar: pointer to store rx data
+//return: 0=failed, 1=succecc
+uint8_t USB_VCP_RxChar(uint8_t *pchar)
+{
+   if (APP_tx_ptr_head == APP_tx_ptr_tail)
+      return 0;
+
+   *buf = APP_Tx_Buffer[APP_tx_ptr_tail];
+   APP_tx_ptr_tail++;
+   if (APP_tx_ptr_tail == APP_TX_BUF_SIZE)
+      APP_tx_ptr_tail = 0;
+
+   return 1;
+}
 ///////////////////////////End of Added Functions////////////////////////////////
