@@ -150,8 +150,7 @@ int main(void)
 		if (cmd == '1')
 		{						
 			//Download User Application file into flash		
-			USB_VCP_TxString("\r\nDownload2Flash");	
-			//Download2Flash();
+			Download2Flash();
 		}
 		else if (cmd == '2')
 		{
