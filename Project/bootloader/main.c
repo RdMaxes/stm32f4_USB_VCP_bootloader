@@ -53,10 +53,6 @@ int main(void)
 
 	while(1) 
 	{	
-		while(USB_VCP_RxChar(c)==0);//waiting for rx data
-			USB_VCP_TxChar(c);
-			USB_VCP_TxChar('\r');
-			USB_VCP_TxChar('\n');
 	}
 
 	return 0;
