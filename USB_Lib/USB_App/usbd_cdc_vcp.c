@@ -195,3 +195,22 @@ uint16_t VCP_DataRx(uint8_t* Buf, uint32_t Len)
    }
    return USBD_OK;
 }
+
+///////////////////////////RdMaxes Added Functions////////////////////////////////
+
+//Send a string via USB to terminal
+//recommand string length is less than 64 bytes
+//str: string to be sent
+void USB_VCP_TxString(uint8_t* str)
+{
+   while((*str)!="\0")
+   {
+      APP_Rx_Buffer[APP_Rx_ptr_in] = *(str++);
+      APP_Rx_ptr_in++;
+      /* To avoid buffer overflow */
+      if (APP_Rx_ptr_in == APP_RX_DATA_SIZE) APP_Rx_ptr_in = 0;      
+   }
+}
+
+
+///////////////////////////End of Added Functions////////////////////////////////
