@@ -46,7 +46,6 @@ int main(void)
 	LED_Init();
 	Usart2_Init(9600);
 	Myprintf_Init(0x00,myputc);
-	//Timer3_Interrupt_Init(50,84);
 	USBD_Init(&USB_OTG_dev,USB_OTG_FS_CORE_ID,&USR_desc,&USBD_CDC_cb,&USR_cb);
 	//Unlock the Flash Program Erase controller
 	STM_FLASH_Init();
@@ -57,21 +56,6 @@ int main(void)
 
 	return 0;
 }
-//////////////////////////Interrupr Functions for Timer3///////////////////////////
-///////////////////////////////////////////////////////////////////////////////////
-void TIM3_IRQHandler(void)
-{
- //   if (TIM_GetITStatus(TIM3, TIM_IT_Update) == SET)
-//    {
-//    	if((USB_RX_STATUS>>7)==USB_RX_DRDY)	//check if data is ready
-//    	{
-//			LED_loop();
-//			USB_RX_STATUS = 0x00; //clear status
-//		}
-		TIM_ClearITPendingBit(TIM3,TIM_FLAG_Update);	
-//    }
-}//////////////////////////End Interrupr Functions for Timer3//////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////
 
 //////////////////////////Interrupr Functions for USB//////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////
