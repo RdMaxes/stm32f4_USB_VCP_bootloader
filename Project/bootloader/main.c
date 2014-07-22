@@ -63,6 +63,10 @@ int main(void)
 	USB_VCP_TxString("=                        Author: RdMaxes                             =\r\n");
 	USB_VCP_TxString("=                        Version: 1.01                               =\r\n");
 	USB_VCP_TxString("======================================================================\r\n");	
+	//Test if any sector of Flash memory where user application will be loaded is write protected
+	if (STM_FLASH_GetWriteProtectionStatus() == 0)   FlashProtection = 1;
+	else FlashProtection = 0;
+	
 	while(1) 
 	{	
 		LED_loop();
