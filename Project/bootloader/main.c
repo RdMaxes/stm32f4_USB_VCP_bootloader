@@ -11,6 +11,8 @@
 #include "usart2.h"
 #include "myprintf.h"
 #include "timer3.h"
+#include "stmflash.h"
+#include "ymodem.h"
 
 #include "usbd_cdc_core.h"
 #include "usbd_usr.h"
