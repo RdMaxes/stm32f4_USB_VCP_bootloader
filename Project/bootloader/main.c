@@ -54,6 +54,41 @@ static void Int2Str(uint8_t* str, int32_t intnum)
     }
   }
 }
+//Download User Application into flash
+static void Download2Flash(void)
+{
+	uint8_t Number[10] = "          ";
+	int32_t Size = 0;
+
+	my_printf("\n\r Waiting for the file to be sent ... (press 'a' to abort)\n\r");
+	Size = Ymodem_Receive(&buf_1k[0],APPLICATION_ADDRESS);
+	if (Size > 0)
+	{
+		my_printf("-------------------\n");
+		my_printf("\n\r Programming Completed Successfully!\n\r--------------------------------\r\n Name: ");
+		my_printf((char*)FileName);
+		Int2Str(Number, Size);
+		my_printf("\n\r Size: ");
+		my_printf((char*)Number);
+		my_printf(" Bytes\r\n");
+	}
+	else if (Size == -1)
+	{
+		my_printf("\n\n\rThe image size is higher than the allowed space memory!\n\r");
+	}
+	else if (Size == -2)
+	{
+		my_printf("\n\n\rVerification failed!\n\r");
+	}
+	else if (Size == -3)
+	{
+		my_printf("\r\n\nAborted by user.\n\r");
+	}
+	else
+	{
+		my_printf("\n\rFailed to receive the file!\n\r");
+	}
+}
 
 //Delay for a while
 //time: delay time
