@@ -1,5 +1,5 @@
 set mem inaccessible-by-default off
-target extended-remote /dev/ttyACM0
+target extended-remote /dev/ttyACM1
 mon swdp_scan
 mon connect_srst enable
 attach 1
