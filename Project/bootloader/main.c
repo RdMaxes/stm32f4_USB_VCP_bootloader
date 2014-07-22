@@ -14,7 +14,6 @@
 #include "led.h"
 #include "usart2.h"
 #include "myprintf.h"
-#include "timer3.h"
 #include "stmflash.h"
 #include "ymodem.h"
 
@@ -50,8 +49,15 @@ int main(void)
 	//Unlock the Flash Program Erase controller
 	STM_FLASH_Init();
 
+	do
+	{
+		USB_VCP_TxString("Please type 'Q' to start IAP\r\n");
+		USB_VCP_RxChar(&c);//check if there's data input
+	}while(c!='Q')
+
 	while(1) 
 	{	
+		LED_loop();
 	}
 
 	return 0;
