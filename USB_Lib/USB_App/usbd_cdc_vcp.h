@@ -31,7 +31,7 @@
 #include <stdint.h>
 
   
-#define USB_RX_BUF_SIZE 1024 //bytes
+#define USB_RX_BUF_SIZE (1024+5+10) //bytes
 
 //Exported Variables
 extern uint8_t USB_RxBuffer[USB_RX_BUF_SIZE];
@@ -41,7 +41,7 @@ extern uint32_t usb_read_data_pos;
 uint16_t VCP_DataTx(uint8_t* Buf, uint32_t Len);
 uint16_t VCP_DataRx(uint8_t* Buf, uint32_t Len);
 void USB_VCP_TxString(uint8_t* str);
-void USB_VCP_TxChar(char pchar);
+void USB_VCP_TxChar(uint8_t pchar);
 uint8_t USB_VCP_RxChar(uint8_t *pchar);
 /* Exported typef ------------------------------------------------------------*/
 /* The following structures groups all needed parameters to be configured for the 

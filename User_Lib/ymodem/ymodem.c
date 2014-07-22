@@ -109,7 +109,7 @@ static int32_t Receive_Packet (uint8_t *data, int32_t *length, uint32_t timeout)
   {
     if (Receive_Byte(data + i, timeout) != 0)
     {
-      return -1;
+//      return -1;
     }
   }
 //  if ((uint8_t)data[PACKET_SEQNO_INDEX] != ((uint8_t)(data[PACKET_SEQNO_COMP_INDEX] ^ 0xff) & 0xff))
@@ -126,7 +126,8 @@ static int32_t Receive_Packet (uint8_t *data, int32_t *length, uint32_t timeout)
 //return: size of IAP file
 int32_t Ymodem_Receive (uint8_t *buf, uint32_t appaddr)
 {
-  uint8_t packet_data[PACKET_1K_SIZE + PACKET_OVERHEAD], *file_ptr, *buf_ptr,flag_EOT;
+  uint8_t packet_data[PACKET_1K_SIZE + PACKET_OVERHEAD]={0};
+  uint8_t *file_ptr, *buf_ptr,flag_EOT;
   int32_t i, packet_length, session_done, file_done, packets_received, errors, session_begin, size = 0;
   char file_size[FILE_SIZE_LENGTH];
   uint32_t flashdestination, ramsource;

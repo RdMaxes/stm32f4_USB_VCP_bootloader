@@ -223,7 +223,7 @@ void USB_VCP_TxString(uint8_t* str)
 
 //Send a char via USB to terminal
 //pchar: char to be sent
-void USB_VCP_TxChar(char pchar) 
+void USB_VCP_TxChar(uint8_t pchar) 
 {
    VCP_DataTx(&pchar, 1);
 }

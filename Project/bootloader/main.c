@@ -158,6 +158,7 @@ int main(void)
 		}
 		else if (cmd == '3') /* execute the new program */
 		{
+			USB_VCP_TxString("\r\nStart Jumpping to User Application");
 			JumpAddress = *(__IO uint32_t*) (APPLICATION_ADDRESS + 4);
 			/* Jump to user application */
 			Jump_To_Application = (pFunction) JumpAddress;

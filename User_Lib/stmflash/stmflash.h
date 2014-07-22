@@ -24,7 +24,7 @@
 
 
 //User Defined Area      
-#define APPLICATION_ADDRESS   (uint32_t)0x08010000 //User Application's location address (sector 4~11)
+#define APPLICATION_ADDRESS   (uint32_t)0x08020000 //User Application's location address (sector 4~11)
 
 //Function Prototype 		
 void STM_FLASH_Init(void);
