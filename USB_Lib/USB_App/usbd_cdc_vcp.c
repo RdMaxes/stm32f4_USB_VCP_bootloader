@@ -183,21 +183,26 @@ uint16_t VCP_DataTx(uint8_t* Buf, uint32_t Len)
 
 uint16_t VCP_DataRx(uint8_t* Buf, uint32_t Len)
 {
-   if (Len>1)//Len bigger then 1 means data exisit
-   {
-      ptrUSB_Rx_Buf = Buf; //point to Rx data buffer
-      USB_RX_STATUS = (uint8_t)(0x7F&Len); //get data length
-      USB_RX_STATUS |= 1<<7; //set data ready bit
-      while((USB_RX_STATUS>>7)==USB_RX_DRDY);//waiting for data read by user
-      
-      ptrUSB_Rx_Buf = NULL;   //reset pointer
-      USB_RX_STATUS = 0x00;   //reset status
+   uint32_t i;
+
+   for (i = 0; i < Len; i++) {
+      USB_RxBuffer[usb_rx_data_pos] = *(Buf + i);
+      usb_rx_data_pos++;
+      if (usb_rx_data_pos == USB_RX_BUF_SIZE)
+         usb_rx_data_pos = 0;
+
+      if (usb_rx_data_pos == usb_read_data_pos)
+         return USBD_FAIL;
    }
+
    return USBD_OK;
 }
 
 ///////////////////////////RdMaxes Added Functions////////////////////////////////
 
+uint8_t USB_RxBuffer[USB_RX_BUF_SIZE];
+uint32_t usb_rx_data_pos = 0;
+uint32_t usb_read_data_pos = 0;
 //Send a string via USB to terminal
 //recommand string length is less than 64 bytes
 //str: string to be sent
@@ -215,5 +220,23 @@ void USB_VCP_TxString(uint8_t* str)
 void USB_VCP_TxChar(char pchar) 
 {
    VCP_DataTx(&pchar, 1);
+}
+
+//Receive a char from terminal via USB line
+//pchar= pointer to store rx data
+//return:
+//       0 = failed, no data can be read
+//       1 = success
+uint8_t USB_VCP_RxChar(uint8_t *pchar) 
+{
+   if (usb_rx_data_pos == usb_read_data_pos)
+      return 0;
+
+   *pchar = USB_RxBuffer[usb_read_data_pos];
+   usb_read_data_pos++;
+   if (usb_read_data_pos == USB_RX_BUF_SIZE)
+      usb_read_data_pos = 0;
+
+   return 1;
 }
 ///////////////////////////End of Added Functions////////////////////////////////
