@@ -186,7 +186,9 @@ uint16_t VCP_DataRx(uint8_t* Buf, uint32_t Len)
    uint32_t i;
    if(Len>1) //Len bigger than 1 means data exisit
    {
-      if(*(Buf+Len-1)=='\r') Len--;
+      if((Len==64)&&(*(Buf+Len-1)=='\r')) Len--; //delete '\r' byte
+      else if (Len!=64) Len--;
+
       for (i = 0; i < Len; i++) 
       {
          USB_RxBuffer[usb_rx_data_pos] = *(Buf + i);
