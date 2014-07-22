@@ -60,33 +60,33 @@ static void Download2Flash(void)
 	uint8_t Number[10] = "          ";
 	int32_t Size = 0;
 
-	my_printf("\n\r Waiting for the file to be sent ... (press 'a' to abort)\n\r");
+	USB_VCP_TxString("\n\r Waiting for the file to be sent ... (press 'a' to abort)\n\r");
 	Size = Ymodem_Receive(&buf_1k[0],APPLICATION_ADDRESS);
 	if (Size > 0)
 	{
-		my_printf("-------------------\n");
-		my_printf("\n\r Programming Completed Successfully!\n\r--------------------------------\r\n Name: ");
-		my_printf((char*)FileName);
+		USB_VCP_TxString("-------------------\n");
+		USB_VCP_TxString("\n\r Programming Completed Successfully!\n\r--------------------------------\r\n Name: ");
+		USB_VCP_TxString((char*)FileName);
 		Int2Str(Number, Size);
-		my_printf("\n\r Size: ");
-		my_printf((char*)Number);
-		my_printf(" Bytes\r\n");
+		USB_VCP_TxString("\n\r Size: ");
+		USB_VCP_TxString((char*)Number);
+		USB_VCP_TxString(" Bytes\r\n");
 	}
 	else if (Size == -1)
 	{
-		my_printf("\n\n\rThe image size is higher than the allowed space memory!\n\r");
+		USB_VCP_TxString("\n\n\rThe image size is higher than the allowed space memory!\n\r");
 	}
 	else if (Size == -2)
 	{
-		my_printf("\n\n\rVerification failed!\n\r");
+		USB_VCP_TxString("\n\n\rVerification failed!\n\r");
 	}
 	else if (Size == -3)
 	{
-		my_printf("\r\n\nAborted by user.\n\r");
+		USB_VCP_TxString("\r\n\nAborted by user.\n\r");
 	}
 	else
 	{
-		my_printf("\n\rFailed to receive the file!\n\r");
+		USB_VCP_TxString("\n\rFailed to receive the file!\n\r");
 	}
 }
 
