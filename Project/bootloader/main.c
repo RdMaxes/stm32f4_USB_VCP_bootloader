@@ -52,8 +52,9 @@ int main(void)
 	do
 	{
 		USB_VCP_TxString("Please type 'Q' to start IAP\r\n");
+		delay(8000000);
 		USB_VCP_RxChar(&c);//check if there's data input
-	}while(c!='Q')
+	}while(c!='Q');
 
 	while(1) 
 	{	
