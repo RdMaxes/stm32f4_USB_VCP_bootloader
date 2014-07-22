@@ -42,19 +42,21 @@ static void delay(int32_t time)
 uint8_t test_buf[64] = "String Show test stm32f4xx \r\n";
 int main(void)
 {	
+	char c = 0;
 	LED_Init();
 	Usart2_Init(9600);
 	Myprintf_Init(0x00,myputc);
 	//Timer3_Interrupt_Init(50,84);
 	USBD_Init(&USB_OTG_dev,USB_OTG_FS_CORE_ID,&USR_desc,&USBD_CDC_cb,&USR_cb);
 	//Unlock the Flash Program Erase controller
-	//STM_FLASH_Init();
+	STM_FLASH_Init();
 
 	while(1) 
 	{	
-		LED_loop();	
-		//USB_VCP_TxString("String show Test.\r\n");
-		USB_VCP_TxString(test_buf);
+		while(USB_VCP_RxChar(c)==0);//waiting for rx data
+			USB_VCP_TxChar(c);
+			USB_VCP_TxChar('\r');
+			USB_VCP_TxChar('\n');
 	}
 
 	return 0;
@@ -63,15 +65,15 @@ int main(void)
 ///////////////////////////////////////////////////////////////////////////////////
 void TIM3_IRQHandler(void)
 {
-    if (TIM_GetITStatus(TIM3, TIM_IT_Update) == SET)
-    {
-    	if((USB_RX_STATUS>>7)==USB_RX_DRDY)	//check if data is ready
-    	{
-			LED_loop();
-			USB_RX_STATUS = 0x00; //clear status
-		}
+ //   if (TIM_GetITStatus(TIM3, TIM_IT_Update) == SET)
+//    {
+//    	if((USB_RX_STATUS>>7)==USB_RX_DRDY)	//check if data is ready
+//    	{
+//			LED_loop();
+//			USB_RX_STATUS = 0x00; //clear status
+//		}
 		TIM_ClearITPendingBit(TIM3,TIM_FLAG_Update);	
-    }
+//    }
 }//////////////////////////End Interrupr Functions for Timer3//////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////
 
