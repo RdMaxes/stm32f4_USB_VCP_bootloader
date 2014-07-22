@@ -184,15 +184,18 @@ uint16_t VCP_DataTx(uint8_t* Buf, uint32_t Len)
 uint16_t VCP_DataRx(uint8_t* Buf, uint32_t Len)
 {
    uint32_t i;
+   if(Len>1) //Len bigger than 1 means data exisit
+   {
+      for (i = 0; i < Len; i++) 
+      {
+         USB_RxBuffer[usb_rx_data_pos] = *(Buf + i);
+         usb_rx_data_pos++;
+         if (usb_rx_data_pos == USB_RX_BUF_SIZE)
+            usb_rx_data_pos = 0;
 
-   for (i = 0; i < Len; i++) {
-      USB_RxBuffer[usb_rx_data_pos] = *(Buf + i);
-      usb_rx_data_pos++;
-      if (usb_rx_data_pos == USB_RX_BUF_SIZE)
-         usb_rx_data_pos = 0;
-
-      if (usb_rx_data_pos == usb_read_data_pos)
-         return USBD_FAIL;
+         if (usb_rx_data_pos == usb_read_data_pos)
+            return USBD_FAIL;
+      }
    }
 
    return USBD_OK;
