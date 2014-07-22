@@ -43,7 +43,6 @@ uint16_t VCP_DataTx(uint8_t* Buf, uint32_t Len);
 uint16_t VCP_DataRx(uint8_t* Buf, uint32_t Len);
 void USB_VCP_TxString(uint8_t* str);
 void USB_VCP_TxChar(char pchar);
-uint8_t USB_VCP_RxChar(uint8_t *pchar);
 /* Exported typef ------------------------------------------------------------*/
 /* The following structures groups all needed parameters to be configured for the 
    ComPort. These parameters can modified on the fly by the host through CDC class
