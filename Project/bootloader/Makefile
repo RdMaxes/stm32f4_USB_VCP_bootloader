@@ -47,7 +47,6 @@ USB_LIB = ../../USB_Lib
 SRC+=	./main.c \
 	$(HARDWARE)/LED/led.c \
 	$(PERIPHERAL)/usart2/usart2.c \
-	$(PERIPHERAL)/timer3/timer3.c \
 	$(USER_LIB)/myprintf/myprintf.c \
 	$(USER_LIB)/stmflash/stmflash.c \
 	$(USER_LIB)/ymodem/ymodem.c \
@@ -71,7 +70,6 @@ SRC+=	./main.c \
 CFLAGS_INCLUDE+=-I./ \
 		-I$(HARDWARE)/LED \
 		-I$(PERIPHERAL)/usart2 \
-		-I$(PERIPHERAL)/timer3 \
 		-I$(USER_LIB)/myprintf \
 		-I$(USER_LIB)/stmflash \
 		-I$(USER_LIB)/ymodem \
