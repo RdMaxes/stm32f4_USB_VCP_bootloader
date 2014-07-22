@@ -203,13 +203,11 @@ uint16_t VCP_DataRx(uint8_t* Buf, uint32_t Len)
 //str: string to be sent
 void USB_VCP_TxString(uint8_t* str)
 {
-   while((*str)!="\0")
-   {
-      APP_Rx_Buffer[APP_Rx_ptr_in] = *(str++);
-      APP_Rx_ptr_in++;
-      /* To avoid buffer overflow */
-      if (APP_Rx_ptr_in == APP_RX_DATA_SIZE) APP_Rx_ptr_in = 0;      
+   uint16_t i = 0;
+   while (*(str + i)) {
+      i++;
    }
+   VCP_DataTx(str, i);
 }
 
 
