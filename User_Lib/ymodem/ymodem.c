@@ -14,7 +14,7 @@
 #include "ymodem.h"
 #include "string.h"
 #include "stdlib.h"
-#include "udbd_cdc_vcp.h"
+#include "usbd_cdc_vcp.h"
 
 //extern variables
 extern uint8_t FileName[FILE_NAME_LENGTH];
