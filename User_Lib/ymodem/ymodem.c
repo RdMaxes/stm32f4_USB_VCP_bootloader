@@ -14,6 +14,7 @@
 #include "ymodem.h"
 #include "string.h"
 #include "stdlib.h"
+#include "udbd_cdc_vcp.h"
 
 //extern variables
 extern uint8_t FileName[FILE_NAME_LENGTH];
@@ -24,9 +25,8 @@ extern uint8_t FileName[FILE_NAME_LENGTH];
 static uint32_t SerialKeyPressed(uint8_t *key)
 {
 
-  if ( USART_GetFlagStatus(IAP_Port, USART_FLAG_RXNE) != RESET)
+  if ( USB_VCP_RxChar(key) != 0)
   {
-    *key = (uint8_t)IAP_Port->DR;
     return 1;
   }
   else
