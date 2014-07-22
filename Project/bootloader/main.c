@@ -39,12 +39,13 @@ static void delay(int32_t time)
 	while(time--);
 }
 
+uint8_t test_buf[64] = "String Show test stm32f4xx \r\n";
 int main(void)
 {	
 	LED_Init();
 	Usart2_Init(9600);
 	Myprintf_Init(0x00,myputc);
-	Timer3_Interrupt_Init(50,84);
+	//Timer3_Interrupt_Init(50,84);
 	USBD_Init(&USB_OTG_dev,USB_OTG_FS_CORE_ID,&USR_desc,&USBD_CDC_cb,&USR_cb);
 	//Unlock the Flash Program Erase controller
 	//STM_FLASH_Init();
@@ -52,7 +53,8 @@ int main(void)
 	while(1) 
 	{	
 		LED_loop();	
-		USB_VCP_TxString("String show Test.\r\n");
+		//USB_VCP_TxString("String show Test.\r\n");
+		USB_VCP_TxString(test_buf);
 	}
 
 	return 0;
