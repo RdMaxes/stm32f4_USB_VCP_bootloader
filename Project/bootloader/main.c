@@ -42,6 +42,7 @@ uint8_t test_buf[64] = "String Show test stm32f4xx \r\n";
 int main(void)
 {	
 	char c = 0;
+
 	LED_Init();
 	Usart2_Init(9600);
 	Myprintf_Init(0x00,myputc);
@@ -49,13 +50,19 @@ int main(void)
 	//Unlock the Flash Program Erase controller
 	STM_FLASH_Init();
 
+	//waiting for user input to start IAP
 	do
 	{
-		USB_VCP_TxString("Please type 'Q' to start IAP\r\n");
+		USB_VCP_TxString("Please type 'Q' to start IAP\r");
 		delay(8000000);
 		USB_VCP_RxChar(&c);//check if there's data input
 	}while(c!='Q');
-
+	//print out welcome message
+	USB_VCP_TxString("======================================================================\r\n");
+	USB_VCP_TxString("=      STM32F40x_41x In-Application Programming (IAP) via USB        =\r\n");	
+	USB_VCP_TxString("=                        Author: RdMaxes                             =\r\n");
+	USB_VCP_TxString("=                        Version: 1.01                               =\r\n");
+	USB_VCP_TxString("======================================================================\r\n");	
 	while(1) 
 	{	
 		LED_loop();
