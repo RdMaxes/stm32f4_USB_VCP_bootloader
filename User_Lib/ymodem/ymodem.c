@@ -2,8 +2,9 @@
 //@brief :Data Rx and flash via Ymodem protocol
 //        (*)STM32F40x_41x IAP flash is excuted in Ymodem_Receive() function
 //        (*)Modified from STM AN395 example
+//        (*)This example is using USB VCP to transmit .bin file
 //@Author:RdMaxes
-//@Data  :2014/07/15
+//@Data  :2014/07/22
 //@Usage :
 //        (*)IAP_Port is defined in ymodem.h
 //        (*)This source file does not include IAP_Port initialize part
