@@ -1,7 +1,11 @@
 /*
-//@brief :
+//@brief :Practice IAP via USB_VCP interface.
+//		  	Data send out from USB Out endpoint is collected in VCP_DataRx(), a while loop
+//		  is waiting until the data is read. Meanwhile, in this practice the Timer3 is configured
+//        with period interrupt, which has higher ISR priority then USB ISR. Data are read out in
+//		  Timer3 interrupt function and also the status flag is clear for next data package.
 //@Author:RdMaxes
-//@Data  :
+//@Data  :2014/07/22
 //@Note  :
 */
 
