@@ -41,6 +41,8 @@ int main(void)
 	Myprintf_Init(0x00,myputc);
 	Timer3_Interrupt_Init(50,84);
 	USBD_Init(&USB_OTG_dev,USB_OTG_FS_CORE_ID,&USR_desc,&USBD_CDC_cb,&USR_cb);
+	//Unlock the Flash Program Erase controller
+	STM_FLASH_Init();
 	
 	while(1) 
 	{	
